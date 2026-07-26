@@ -24,6 +24,7 @@ Paste the following code into your editor:
 
 */
 
+
 const readline = require('readline-sync');
 
 let hasTorch = false;
@@ -45,14 +46,14 @@ let characterLevel = 1;
 let experiencePoints = 0;
 
 console.log("You're at a misty crossroads. You can make out something on the ground that looks long and thin.");
-  const choice1 = readline.keyInSelect(yesOrNo, "Pick it up?");
+  const choice1 = readline.keyInSelect(yesOrNo, "\nPick it up?");
   if (yesOrNo[choice1] === "yes") {
     hasTorch = true;
     console.log("You found a torch! This should come in handy.");
   }
 
 console.log("You see two paths: one leads to the mountains, the other to the village.");
-const choice2 = readline.question("Do you go to the 'mountains' or the 'village'? ");
+const choice2 = readline.question("\nDo you go to the 'mountains' or the 'village'? ");
 
 if (choice2.trim().toLowerCase() === "mountains" && hasTorch) {
     location = "mountains";
@@ -61,11 +62,9 @@ if (choice2.trim().toLowerCase() === "mountains" && hasTorch) {
       You safely navigate through the dark mountains with the torch and reach a cave.
       
       Through the torchlight, you can see paintings on the walls. On the floor, you see the glint of metal.`);
-    let choice2a = readline.keyInSelect(yesOrNo, "Examine the metal object?");
+    let choice2a = readline.keyInSelect(yesOrNo, "\nExamine the metal object?");
     if (yesOrNo[choice2a] === "yes") {
       hasRustySword = true;
-      console.log(choice2a);
-      console.log(typeof choice2a);
       console.log("You've found a sword! It's rusty, but it could still be useful.");
     }
     else if (yesOrNo[choice2a] === "no") { 
@@ -74,13 +73,14 @@ if (choice2.trim().toLowerCase() === "mountains" && hasTorch) {
       console.log("Found 10 Gold!");
     }
     let tempLocations = ["cave", "village"];
-    let choice2b = readline.keyInSelect(tempLocations, "Stay in the cave for the night, or head to the village?");
+    let choice2b = readline.keyInSelect(tempLocations, "\nStay in the cave for the night, or head to the village?");
     if (tempLocations[choice2b] === "cave") {
       if (!hasRustySword && !hasFarmAxe) {
         console.log("Bandits attack you in your sleep, and you have nothing to defend yourself with. Tough luck. What were you thinking?");
         endingsUnlocked.push(badEnd2);
         console.log(`You unlocked ${badEnd2} in the endings gallery.`);
         console.log(`Endings unlocked: ${endingsUnlocked}`);
+        readline.keyInPause("Press any key to exit the game..."); 
       }
       else if (hasRustySword || hasFarmAxe) {
         console.log("Two rubes enter the cave in the middle of the night. When they see your weapon, they flee, dropping some items.");
@@ -91,6 +91,7 @@ if (choice2.trim().toLowerCase() === "mountains" && hasTorch) {
           experiencePoints = experiencePoints + 4;
           healthPotions = healthPotions + 1;
           hasOneShoe = true;
+          readline.keyInPause("Press any key to exit the game..."); 
       }
     }
     else if (choice2b === "village") {
@@ -99,12 +100,13 @@ if (choice2.trim().toLowerCase() === "mountains" && hasTorch) {
     }
 } else if (choice2 === "mountains" && !hasTorch) {
     console.log("It's too dark to proceed. You decide to turn back.");
-    let choice2c = readline.keyInSelect(yesOrNo, "Or do you?");
+    let choice2c = readline.keyInSelect(yesOrNo, "\nOr do you?");
     if (yesOrNo[choice2c] === "no"){
       console.log("You get lost and wander aimlessly in the woods You injure your leg in the dark, and no one is there to help you. \nWhat were you thinking?");
       console.log(`You unlocked ${badEnd1} in the endings gallery.`)
       endingsUnlocked.push(badEnd1);
       console.log(`Endings unlocked: ${endingsUnlocked}`);
+      readline.keyInPause("Press any key to exit the game..."); 
     }
 } else if (choice2.trim().toLowerCase() === "village") {
     location = "village";
@@ -112,14 +114,16 @@ if (choice2.trim().toLowerCase() === "mountains" && hasTorch) {
 } else if (choice2 === "mountains" && hasMap){
     location = "valley";
     console.log("Using the map, you're able to navigate through a hidden pass to a valley.");
+    readline.keyInPause("Press any key to exit the game..."); 
 };
 
 if (location === "village") {
   console.log("Welcome to Riverview! We have shops, an inn, and a quest board.");
-  const choice3a = readline.keyInSelect(villageLocations, "Where do you want to go?");
+  const choice3a = readline.keyInSelect(villageLocations, "\nWhere do you want to go?");
   if ((villageLocations[choice3a] === "inn") || (villageLocations[choice3a] === "shops") && (gold === 0)){
 
     console.log("You don't have any money!"); 
+    readline.keyInPause("Press any key to exit the game..."); 
 }
   else if ((villageLocations[choice3a] === "shops") && (gold >=1)) {
     console.log(`Welcome to the general store. Let me know which you'd like.
@@ -129,7 +133,7 @@ if (location === "village") {
   Mountain Map \t5 gold`);
 
     let shopInventoryTemp = ["Health Potion", "Leather Vest", "Mountain Map", "Nothing for now"];
-    let shopChoiceTemp = readline.keyInSelect(shopInventoryTemp, "Which would you like to purchase?");
+    let shopChoiceTemp = readline.keyInSelect(shopInventoryTemp, "\nWhich would you like to purchase?");
     if (shopInventoryTemp[shopChoiceTemp] === "Health Potion") {
       healthPotions = healthPotions +1;
       gold = gold -2;
@@ -151,6 +155,7 @@ if (location === "village") {
         Mountain Map \t5 gold
         
         Your gold: ${gold}`);
+        readline.keyInPause("Press any key to exit the game..."); 
     }
     else if (shopInventoryTemp[shopChoiceTemp] === "Mountain Map") {
       hasMountainsMap = true;
@@ -162,9 +167,11 @@ if (location === "village") {
         Leather Vest \t5 gold
         
         Your gold: ${gold}`);
+        readline.keyInPause("Press any key to exit the game..."); 
     }
     else if (shopInventoryTemp[shopChoiceTemp] === "Nothing for now"){
       console.log("Take care you don't go up that mountain unprepared.");
+      readline.keyInPause("Press any key to exit the game..."); 
     }
   }
 else if (villageLocations[choice3a] === "quest board") {
@@ -175,7 +182,7 @@ else if (villageLocations[choice3a] === "quest board") {
       and enough gold to buy a Health Potion.
 
       Rewards: 10 Gold`);
-    const ratQuestOffer = readline.keyInSelect(yesOrNo, "Accept the quest?");
+    const ratQuestOffer = readline.keyInSelect(yesOrNo, "\nAccept the quest?");
       if (yesOrNo[ratQuestOffer] === "yes"){
         hasFarmAxe = true;
         gold = gold +2;
@@ -185,17 +192,17 @@ else if (villageLocations[choice3a] === "quest board") {
 
           `);
           let travelLocationsTemp = ["shops", "inn", "crossroads", "bakery cellar"];
-          let travelChoiceTemp = readline.keyInSelect(travelLocationsTemp, "Where to now?");
+          let travelChoiceTemp = readline.keyInSelect(travelLocationsTemp, "\nWhere to now?");
           if ((travelLocationsTemp[travelChoiceTemp] === "shops") && gold >= 1){
               location = "shops";
-              console.log(`Welcome to the general store. Let me know which you'd like.
+              console.log(`Welcome to the general store.
               Item \tPrice
               Health Potion \t2 gold
               Leather Vest \t5 gold
               Mountain Map \t5 gold`);
               
                 let shopInventoryTemp = ["Health Potion", "Leather Vest", "Mountain Map", "Nothing for now"];
-                let shopChoiceTemp = readline.keyInSelect(shopInventoryTemp, "Which would you like to purchase?");
+                let shopChoiceTemp = readline.keyInSelect(shopInventoryTemp, "\nWhich would you like to purchase?");
                 if (shopInventoryTemp[shopChoiceTemp] === "Health Potion") {
                     healthPotions = healthPotions +1;
                     gold = gold -2;
@@ -206,6 +213,7 @@ else if (villageLocations[choice3a] === "quest board") {
                     Mountain Map \t5 gold
             
                     Your gold: ${gold}`);
+                    readline.keyInPause("Press any key to exit the game..."); 
                  }
                 else if (shopInventoryTemp[shopChoiceTemp] === "Leather Vest"){
                   hasLeatherVest = true;
@@ -217,6 +225,7 @@ else if (villageLocations[choice3a] === "quest board") {
                   Mountain Map \t5 gold
             
                   Your gold: ${gold}`);
+                  readline.keyInPause("Press any key to exit the game..."); 
                    }
                 else if (shopInventoryTemp[shopChoiceTemp] === "Mountain Map") {
                   hasMountainsMap = true;
@@ -228,15 +237,18 @@ else if (villageLocations[choice3a] === "quest board") {
                   Leather Vest \t5 gold
             
                   Your gold: ${gold}`);
+                  readline.keyInPause("Press any key to exit the game..."); 
                   }
                 else if (shopInventoryTemp[shopChoiceTemp] === "Nothing for now"){
                   console.log("Take care you don't go up that mountain unprepared.");
+                  readline.keyInPause("Press any key to exit the game..."); 
                 }
           }
       }
       else {
         console.log("Where would you like to go?");
         let travelLocationsTemp = ["shops", "inn", "crossroads"];
+        readline.keyInPause("Press any key to exit the game..."); 
       };
   };
 };
